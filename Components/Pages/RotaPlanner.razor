@@ -89,7 +89,7 @@
                             <span class="day-number">@day.Date.Day</span>
                             @if (day.IsWorkDay && day.StartTime.HasValue)
                             {
-                                <span class="shift-time">@day.StartTime.Value.ToString("h tt")</span>
+                                <span class="shift-time">@FormatShiftTimeRange(day.StartTime.Value)</span>
                             }
                         </div>
                     }
@@ -179,5 +179,11 @@
             customSequence.RemoveAt(index);
             UpdateSchedule();
         }
+    }
+
+    private static string FormatShiftTimeRange(TimeOnly startTime, int durationHours = 9)
+    {
+        TimeOnly endTime = startTime.AddHours(durationHours);
+        return $"{startTime:HH} to {endTime:HH}";
     }
 }
