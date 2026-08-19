@@ -60,13 +60,13 @@
     </div>
 
     <!-- Right Side: Multiple Monthly Calendar Grids -->
-    <div class="calendar-panel" style="flex: 2; display: flex; flex-direction: column; gap: 40px;">
+    <div class="calendar-panel" style="flex: 2; display: flex; flex-direction: column; gap: 40px; max-width: 1000px; width: 100%;">
         @foreach (KeyValuePair<MonthKey, List<ShiftDay>> monthGroup in GroupedMonths)
         {
             string displayTitle = new DateTime(monthGroup.Key.Year, monthGroup.Key.Month, 1).ToString("MMMM yyyy");
             int paddingDays = ((int)new DateOnly(monthGroup.Key.Year, monthGroup.Key.Month, 1).DayOfWeek + 6) % 7;
 
-            <div class="month-container" style="background: #ffffff; padding: 15px; border: 1px solid #dee2e6; border-radius: 8px;">
+            <div class="month-container" style="background: #ffffff; padding: 15px; border: 1px solid #dee2e6; border-radius: 8px; max-width: 1000px; width: 100%; box-sizing: border-box;">
                 <h4 style="margin-top: 0; margin-bottom: 15px; color: #333; border-bottom: 2px solid #eee; padding-bottom: 5px;">@displayTitle</h4>
                 
                 <div class="calendar-grid">
@@ -100,6 +100,7 @@
 </div>
 
 <style>
+    .month-container { max-width: 1000px; width: 100%; box-sizing: border-box; }
     .form-control { width: 100%; padding: 6px; margin-top: 4px; border: 1px solid #ced4da; border-radius: 4px; }
     .btn-sm { padding: 4px 8px; font-size: 0.85rem; border-radius: 4px; cursor: pointer; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
