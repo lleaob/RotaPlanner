@@ -1,0 +1,96 @@
+@page "/planner"
+@using global::RotaPlanner.Models
+@using global::RotaPlanner.Services
+@inject global::RotaPlanner.Services.RotaEngine Engine
+@rendermode InteractiveServer
+
+<PageTitle>Team Rota Planner</PageTitle>
+
+<h3>Team Rota Planner</h3>
+
+<div class="controls" style="margin-bottom: 20px; display: flex; gap: 15px; align-items: center;">
+    <div>
+        <label for="startDateInput" style="font-weight: 500; margin-right: 5px;">Start Date:</label>
+        <input id="startDateInput" type="date" @bind="selectedStartDate" @bind:after="UpdateSchedule" />
+    </div>
+    <div>
+        <button class="btn btn-outline-primary btn-sm" @onclick="ToggleTimeDemo">Toggle Alternating Start Times</button>
+    </div>
+</div>
+
+<div class="calendar-grid">
+    <!-- Day Headers -->
+    @foreach (string day in Enum.GetNames(typeof(DayOfWeek)))
+    {
+        <div class="grid-header">@day.Substring(0, 3)</div>
+    }
+
+    <!-- Blank spaces for padding the first week -->
+    @for (int i = 0; i < OffsetDays; i++)
+    {
+        <div class="grid-cell empty"></div>
+    }
+
+    <!-- Actual Rota Days -->
+    @foreach (ShiftDay day in DisplayDays)
+    {
+        <div class="grid-cell @(day.IsWorkDay ? "work-day" : "off-day")">
+            <span class="day-number">@day.Date.Day</span>
+            @if (day.IsWorkDay && day.StartTime.HasValue)
+            {
+                <span class="shift-time">@day.StartTime.Value.ToString("h tt")</span>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 5px;
+        max-width: 600px;
+    }
+    .grid-header { font-weight: bold; text-align: center; padding: 5px; }
+    .grid-cell { border: 1px solid #ccc; min-height: 70px; padding: 5px; display: flex; flex-direction: column; justify-content: space-between; }
+    .empty { background-color: #f9f9f9; border: 1px dashed #eee; }
+    .work-day { background-color: #d4edda; color: #155724; }
+    .off-day { background-color: #e2e3e5; color: #383d41; }
+    .shift-time { font-size: 0.8rem; font-weight: bold; background: rgba(255,255,255,0.6); padding: 2px; border-radius: 3px; text-align: center; }
+</style>
+
+@code {
+    private DateTime selectedStartDate { get; set; } = new DateTime(2026, 9, 1);
+    private List<ShiftDay> DisplayDays { get; set; } = new();
+    private int OffsetDays => (int)DateOnly.FromDateTime(selectedStartDate).DayOfWeek;
+    
+    private RotaPattern currentPattern = new() 
+    { 
+        Sequence = new List<int> { 4, -2, 5, -2 } // 4 on, 2 off, 5 on, 2 off
+    };
+
+    protected override void OnInitialized()
+    {
+        UpdateSchedule();
+    }
+
+    private void UpdateSchedule()
+    {
+        DateOnly start = DateOnly.FromDateTime(selectedStartDate);
+        // Generate roughly 1 month for the initial view
+        DisplayDays = Engine.GenerateSchedule(start, currentPattern, 30);
+    }
+
+    private void ToggleTimeDemo()
+    {
+        if (currentPattern.StartTimesPool.Count == 0)
+        {
+            currentPattern.StartTimesPool = new List<int> { 7, 8, 9 };
+        }
+        else
+        {
+            currentPattern.StartTimesPool.Clear();
+        }
+        UpdateSchedule();
+    }
+}
