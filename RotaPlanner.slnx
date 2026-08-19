@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="RotaPlanner.csproj" />
+  <Project Path="RotaPlanner.Tests/RotaPlanner.Tests.csproj" />
+</Solution>
