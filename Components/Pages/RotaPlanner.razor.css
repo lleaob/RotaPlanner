@@ -1,0 +1,218 @@
+.planner-container {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    height: 100%;
+    gap: 24px;
+    align-items: stretch;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.controls-panel {
+    flex: 0 0 320px;
+    max-width: 350px;
+    min-width: 280px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
+    border: 1px solid #e9ecef;
+}
+
+.calendar-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 1000px;
+    width: 100%;
+    overflow-y: auto;
+    height: 100%;
+    padding-right: 8px;
+    box-sizing: border-box;
+}
+
+.month-container {
+    background: #ffffff;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.month-title {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.pattern-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.pattern-label {
+    font-weight: 500;
+    min-width: 50px;
+}
+
+.pattern-days {
+    width: 55px;
+}
+
+.pattern-type {
+    padding: 4px 6px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.btn-remove {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 2px 6px;
+}
+
+.pattern-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.btn-add-work {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.btn-add-off {
+    background: #e2e3e5;
+    color: #383d41;
+    border: 1px solid #d6d8db;
+}
+
+.form-control {
+    width: 100%;
+    padding: 6px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+.btn-sm {
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.grid-header {
+    font-weight: bold;
+    text-align: center;
+    padding: 5px;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.grid-cell {
+    border: 1px solid #dee2e6;
+    min-height: 65px;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 4px;
+}
+
+.empty {
+    background-color: #f8f9fa;
+    border: 1px dashed #e9ecef;
+}
+
+.work-day {
+    background-color: #d4edda;
+    color: #155724;
+    border-top: 4px solid #28a745;
+}
+
+.off-day {
+    background-color: #e2e3e5;
+    color: #383d41;
+    border-top: 4px solid #6c757d;
+}
+
+.shift-time {
+    font-size: 0.75rem;
+    font-weight: bold;
+    background: rgba(255, 255, 255, 0.85);
+    padding: 2px;
+    border-radius: 3px;
+    text-align: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Custom subtle scrollbars for panel containers */
+.controls-panel::-webkit-scrollbar,
+.calendar-panel::-webkit-scrollbar {
+    width: 6px;
+}
+
+.controls-panel::-webkit-scrollbar-track,
+.calendar-panel::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.controls-panel::-webkit-scrollbar-thumb,
+.calendar-panel::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* Responsive fallback for narrow mobile portrait viewports */
+@media (max-width: 599px) {
+    .planner-container {
+        flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+    }
+
+    .controls-panel {
+        flex: none;
+        max-width: 100%;
+        width: 100%;
+        overflow-y: visible;
+        height: auto;
+    }
+
+    .calendar-panel {
+        overflow-y: visible;
+        height: auto;
+        padding-right: 0;
+    }
+}
